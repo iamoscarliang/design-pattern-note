@@ -1,0 +1,11 @@
+package decorator.condiment;
+
+import decorator.beverage.Beverage;
+
+public abstract class CondimentDecorator extends Beverage {
+
+    protected Beverage mBeverage;
+
+    public abstract String getDescription();
+
+}
