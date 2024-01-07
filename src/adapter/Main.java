@@ -1,5 +1,10 @@
 package adapter;
 
+import adapter.duck.Duck;
+import adapter.duck.MallardDuck;
+import adapter.turkey.Turkey;
+import adapter.turkey.WildTurkey;
+
 public class Main {
 
     public static void main(String[] args) {

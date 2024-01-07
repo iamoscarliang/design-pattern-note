@@ -1,5 +1,8 @@
 package adapter;
 
+import adapter.duck.Duck;
+import adapter.turkey.Turkey;
+
 public class TurkeyAdapter implements Duck {
 
     private Turkey mTurkey;
