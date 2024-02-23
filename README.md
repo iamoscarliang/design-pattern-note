@@ -5,9 +5,9 @@ Design Pattern in Java with real-world examples
 ---
 
 ## :pushpin: Content
-- :dart: [Strategy](##strategy)
-- :eyes: [Observer](##observer)
-- :bouquet: [Decorator](##decorator)
+- :dart: [Strategy](#strategy)
+- :eyes: [Observer](#observer)
+- :bouquet: [Decorator](#decorator)
 
 
 ## :dart: Strategy
