@@ -1,6 +1,6 @@
 package observer.interfaces;
 
-public interface Observable {
+public interface Subject {
 
     void registerObserver(Observer observer);
 

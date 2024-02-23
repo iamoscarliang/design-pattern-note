@@ -1,13 +1,13 @@
 package observer.weather;
 
 
-import observer.interfaces.Observable;
+import observer.interfaces.Subject;
 import observer.interfaces.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WeatherData implements Observable {
+public class WeatherData implements Subject {
 
     private float mTemp;
     private float mHumidity;

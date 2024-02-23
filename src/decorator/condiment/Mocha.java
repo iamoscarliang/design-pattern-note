@@ -5,7 +5,7 @@ import decorator.beverage.Beverage;
 public class Mocha extends CondimentDecorator {
 
     public Mocha(Beverage beverage) {
-        mBeverage = beverage;
+        super(beverage);
     }
 
     @Override

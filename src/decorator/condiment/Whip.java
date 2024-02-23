@@ -5,7 +5,7 @@ import decorator.beverage.Beverage;
 public class Whip extends CondimentDecorator {
 
     public Whip(Beverage beverage) {
-        mBeverage = beverage;
+        super(beverage);
     }
 
     @Override
