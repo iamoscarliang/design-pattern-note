@@ -9,6 +9,7 @@ Design Pattern in Java with real-world examples
 - :eyes: [Observer](#observer)
 - :bouquet: [Decorator](#decorator)
 - :factory: [Factory](#factory)
+- :mens: [Singleton](#singleton)
 
 
 ## :dart: Strategy
@@ -289,5 +290,33 @@ public class NYPizzaStore extends PizzaStore {
 }
 ```
 
+## :mens: Singleton
+Ensures only one object of a particular class is ever created and provides a global access to it
+
+### Example
+
+```java
+public class Singleton {
+
+    private static Singleton INSTANCE;
+
+    private Singleton() {
+    }
+
+    public static Singleton getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new Singleton();
+        }
+
+        return INSTANCE;
+    }
+
+}
+```
+
+Create a singleton instance...
+```java
+Singleton singleton = Singleton.getInstance();
+```
 
 
