@@ -1,13 +1,21 @@
 package state.gumball.state;
 
-public interface State {
+import state.gumball.GumBallMachine;
 
-    void insertQuarter();
+public abstract class State {
 
-    void ejectQuarter();
+    protected final GumBallMachine mMachine;
 
-    void turnCrank();
+    public State(GumBallMachine machine) {
+        mMachine = machine;
+    }
 
-    void dispense();
+    public abstract void insertQuarter();
+
+    public abstract void ejectQuarter();
+
+    public abstract void turnCrank();
+
+    public abstract void dispense();
 
 }

@@ -1,7 +1,5 @@
 package template.beverage;
 
-import template.beverage.Beverage;
-
 public class Tea extends Beverage {
 
     @Override

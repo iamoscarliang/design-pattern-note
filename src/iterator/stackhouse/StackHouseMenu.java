@@ -6,10 +6,7 @@ import iterator.MenuIterator;
 
 public class StackHouseMenu implements Menu {
 
-    private static final int MAX_ITEMS = 2;
-
-    private int mItemCount = 0;
-    private final MenuItem[] mMenuItems = new MenuItem[MAX_ITEMS];
+    private final MenuItem[] mMenuItems = new MenuItem[2];
 
     public StackHouseMenu() {
         mMenuItems[0] = new MenuItem("Fillet Steak", 20.99);

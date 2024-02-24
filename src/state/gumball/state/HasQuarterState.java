@@ -2,12 +2,10 @@ package state.gumball.state;
 
 import state.gumball.GumBallMachine;
 
-public class HasQuarterState implements State {
-
-    private final GumBallMachine mMachine;
+public class HasQuarterState extends State {
 
     public HasQuarterState(GumBallMachine machine) {
-        mMachine = machine;
+        super(machine);
     }
 
     @Override

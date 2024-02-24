@@ -2,12 +2,10 @@ package state.gumball.state;
 
 import state.gumball.GumBallMachine;
 
-public class SoldState implements State {
-
-    private final GumBallMachine mMachine;
+public class SoldState extends State {
 
     public SoldState(GumBallMachine machine) {
-        mMachine = machine;
+        super(machine);
     }
 
     @Override

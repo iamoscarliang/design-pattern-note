@@ -2,12 +2,10 @@ package state.gumball.state;
 
 import state.gumball.GumBallMachine;
 
-public class NoQuarterState implements State {
-
-    private final GumBallMachine mMachine;
+public class NoQuarterState extends State {
 
     public NoQuarterState(GumBallMachine machine) {
-        mMachine = machine;
+        super(machine);
     }
 
     @Override
