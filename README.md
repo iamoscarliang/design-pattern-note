@@ -12,6 +12,7 @@ Design Pattern in Java with real-world examples
 - :mens: [Singleton](#singleton)
 - :calling: [Command](#command)
 - :electric_plug: [Adapter](#adapter)
+- :door: [Facade](#facade)
 
 ## :dart: Strategy
 Define a set of replaceable algorithms at runtime. Select and replace algorithms independent of the clients that use it.
@@ -471,6 +472,97 @@ Duck turkeyAdapter = new TurkeyAdapter(turkey);
 
 duck.quack();
 turkeyAdapter.quack();
+```
+
+## :door: Facade
+Provides a simplified high-level interface to a set of low-level subcomponents.
+
+### Example
+In a movie system at a theater, manager need a way to efficiently control all the equipment, like light, screen, projector...
+
+```java
+public class Light {
+
+    public void on() {
+        System.out.println("Light is on");
+    }
+
+    public void off() {
+        System.out.println("Light is off");
+    }
+
+}
+
+public class Screen {
+
+    public void up() {
+        System.out.println("Screen going up");
+    }
+
+    public void down() {
+        System.out.println("Screen going down");
+    }
+
+}
+
+public class Projector {
+
+    public void on() {
+        System.out.println("Projector is on");
+    }
+
+    public void play(String movie) {
+        System.out.println("Play movie: " + movie);
+    }
+
+    public void off() {
+        System.out.println("Projector is off");
+    }
+
+}
+```
+
+Create a theater facade to control all the equipment...
+
+```java
+public class TheaterFacade {
+
+    private Light mLight;
+    private Screen mScreen;
+    private Projector mProjector;
+
+    public TheaterFacade(Light light, Screen screen, Projector projector) {
+        mLight = light;
+        mScreen = screen;
+        mProjector = projector;
+    }
+
+    public void watchMovie(String movie) {
+        mLight.off();
+        mScreen.down();
+        mProjector.on();
+        mProjector.play(movie);
+    }
+
+    public void endMovie() {
+        mLight.on();
+        mScreen.up();
+        mProjector.off();
+    }
+
+}
+```
+
+Play a decent movie with the theater facade...
+
+```java
+Light light = new Light();
+Screen screen = new Screen();
+Projector projector = new Projector();
+
+TheaterFacade theaterFacade = new TheaterFacade(light, screen, projector);
+theaterFacade.watchMovie("Lord of the ring");
+theaterFacade.endMovie();
 ```
 
 
