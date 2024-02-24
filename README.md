@@ -15,6 +15,7 @@ Design Pattern in Java with real-world examples
 - :door: [Facade](#facade)
 - :clipboard: [Template](#template)
 - :repeat: [Iterator](#iterator)
+- :deciduous_tree: [Composition](#composition)
 
 ## :dart: Strategy
 Define a set of replaceable algorithms at runtime. Select and replace algorithms independent of the clients that use it.
@@ -45,17 +46,14 @@ public abstract class Character {
 }
 ```
 
-Create a king character and replace different weapons from it...
+Create a king character and set different weapons to it...
 
 ```java
-// Init a king from supertype
 Character king = new King();
 
-// Init a sword weapon to the king
 king.setWeaponBehavior(new SwordBehavior());
 king.fight();
 
-// Init an arrow weapon to the king
 king.setWeaponBehavior(new ArrowBehavior());
 king.fight(); 
 ```
@@ -742,6 +740,103 @@ private static void printMenu(MenuIterator iterator) {
 }
 ```
 
+## :deciduous_tree: Composition
+ Define a set of objects into tree structures and treat individual objects and composite objects uniformly.
 
+ ### Example
+ In a restaurent, the manager need to design a menu that can seperate dinner items and desert items as well as easily add and remove items from it.
+
+ ```java
+public abstract class MenuComponent {
+
+    public void add(MenuComponent component) {
+        throw new UnsupportedOperationException();
+    }
+
+    public void remove(MenuComponent component) {
+        throw new UnsupportedOperationException();
+    }
+
+    public MenuComponent getChild(int i) {
+        throw new UnsupportedOperationException();
+    }
+
+    public void print() {
+        throw new UnsupportedOperationException();
+    }
+
+}
+```
+
+Create menu items as a component...
+
+```java
+public class MenuItem extends MenuComponent {
+
+    private String mName;
+    private double mPrice;
+
+    public MenuItem(String name, double price) {
+        mName = name;
+        mPrice = price;
+    }
+
+    @Override
+    public void print() {
+        System.out.println("   " + mName + ", $" + mPrice);
+    }
+
+}
+```
+
+Create the menu also as a component...
+
+```java
+public class Menu extends MenuComponent {
+
+    private final List<MenuComponent> mComponents = new ArrayList<>();
+
+    @Override
+    public void add(MenuComponent component) {
+        mComponents.add(component);
+    }
+
+    @Override
+    public void remove(MenuComponent component) {
+        mComponents.remove(component);
+    }
+
+    @Override
+    public MenuComponent getChild(int i) {
+        return mComponents.get(i);
+    }
+
+    @Override
+    public void print() {
+        for (MenuComponent component : mComponents) {
+            component.print();
+        }
+    }
+
+}
+```
+
+Create the dinner menu and the desert menu and combine them...
+
+
+```java
+MenuComponent dinnerMenu = new Menu("Dinner Menu");
+dinnerMenu.add(new MenuItem("Fillet Steak", 20.99));
+dinnerMenu.add(new MenuItem("New York Steak", 15.99));
+
+MenuComponent dessertMenu = new Menu("Dessert Menu");
+dessertMenu.add(new MenuItem("Apple Pie", 1.59));
+dessertMenu.add(new MenuItem("Ice Cream", 2.59));
+
+MenuComponent allMenu = new Menu("All Menus");
+allMenu.add(dinnerMenu);
+dinnerMenu.add(dessertMenu);
+allMenu.print();
+```
 
 
