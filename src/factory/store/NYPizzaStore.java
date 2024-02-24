@@ -10,8 +10,8 @@ public class NYPizzaStore extends PizzaStore {
 
     @Override
     protected Pizza createPizza(String type) {
-        Pizza pizza;
         PizzaIngredientFactory ingredientFactory = new NYPizzaIngredientFactory();
+        Pizza pizza;
         switch (type) {
             case "cheese":
                 pizza = new CheesePizza(ingredientFactory);
