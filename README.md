@@ -1,6 +1,6 @@
 # design-pattern-note
 
-Design Pattern in Java with real-world examples
+Design Pattern in Java with real-world examples based on [Head First Design Pattern](https://www.oreilly.com/library/view/head-first-design/9781492077992/)
 
 ---
 
@@ -9,8 +9,8 @@ Design Pattern in Java with real-world examples
 - :eyes: [Observer](#observer)
 - :bouquet: [Decorator](#decorator)
 - :factory: [Factory](#factory)
-- :mens: [Singleton](#singleton)
-- :calling: [Command](#command)
+- :standing_person: [Singleton](#singleton)
+- :joystick: [Command](#command)
 - :electric_plug: [Adapter](#adapter)
 - :door: [Facade](#facade)
 - :clipboard: [Template](#template)
@@ -293,7 +293,7 @@ public class NYPizzaStore extends PizzaStore {
 }
 ```
 
-## :mens: Singleton
+## :standing_person: Singleton
 Ensures only one object of a particular class is ever created and provides a global access to it
 
 ### Example
@@ -322,7 +322,7 @@ Create a singleton instance...
 Singleton singleton = Singleton.getInstance();
 ```
 
-## :calling: Command
+## :joystick: Command
 Encapsulate a request into an object and lets you pass requests as a method arguments.
 
 ### Example
