@@ -16,6 +16,7 @@ Design Pattern in Java with real-world examples
 - :clipboard: [Template](#template)
 - :repeat: [Iterator](#iterator)
 - :deciduous_tree: [Composition](#composition)
+- :traffic_light: [State](#state)
 
 ## :dart: Strategy
 Define a set of replaceable algorithms at runtime. Select and replace algorithms independent of the clients that use it.
@@ -839,4 +840,166 @@ dinnerMenu.add(dessertMenu);
 allMenu.print();
 ```
 
+## :traffic_light: State
+Define and control a set of states inside an object. Alter its behavior when its internal state changes.
 
+### Example
+A candy company design a gum ball machine. To let the machine work properly, the designer implement a set of state controller inside it. When receiving a new requst, the machine will change its internal state to fullfill the request and move on to the next state.
+
+```java
+public interface State {
+
+    void insertQuarter();
+
+    void ejectQuarter();
+
+    void turnCrank();
+
+    void dispense();
+
+}
+```
+
+Create NoQuarter state, HasQuarter state, and Sold state...
+
+```java
+public class NoQuarterState implements State {
+
+    @Override
+    public void insertQuarter() {
+        System.out.println("You inserted a quarter!");
+        mMachine.setState(mMachine.mHasQuarterState);
+    }
+
+    @Override
+    public void ejectQuarter() {
+        System.out.println("You haven't inserted a quarter!");
+    }
+
+    @Override
+    public void turnCrank() {
+        System.out.println("You turned, but there is no quarter!");
+    }
+
+    @Override
+    public void dispense() {
+        System.out.println("You need to pay a quarter fist!");
+    }
+
+}
+
+public class HasQuarterState implements State {
+
+    @Override
+    public void insertQuarter() {
+        System.out.println("You cannot inserted another quarter!");
+    }
+
+    @Override
+    public void ejectQuarter() {
+        System.out.println("Quarter return!");
+        mMachine.setState(mMachine.mNoQuarterState);
+    }
+
+    @Override
+    public void turnCrank() {
+        System.out.println("You turn...");
+        mMachine.setState(mMachine.mSoldState);
+    }
+
+    @Override
+    public void dispense() {
+        System.out.println("No gumball dispense!");
+    }
+
+}
+
+public class SoldState implements State {
+
+    @Override
+    public void insertQuarter() {
+        System.out.println("Please wait, we are already giving you a gumball!");
+    }
+
+    @Override
+    public void ejectQuarter() {
+        System.out.println("Sorry, you already turn the crank!");
+    }
+
+    @Override
+    public void turnCrank() {
+        System.out.println("Turning twice does not get you another gumball!");
+    }
+
+    @Override
+    public void dispense() {
+        mMachine.releaseBall();
+        if (mMachine.getCount() > 0) {
+            mMachine.setState(mMachine.mNoQuarterState);
+        } else {
+            System.out.println("Oops, out of gumball!");
+        }
+    }
+
+}
+```
+
+Create the gum ball machine and implement the internal state...
+
+```java
+public class GumBallMachine {
+
+    public final State mSoldOutState;
+    public final State mNoQuarterState;
+    public final State mHasQuarterState;
+
+    private State mState;
+    private int mCount;
+
+    public GumBallMachine(int initCount) {
+        mSoldOutState = new SoldOutState(this);
+        mNoQuarterState = new NoQuarterState(this);
+        mHasQuarterState = new HasQuarterState(this);
+
+        mCount = initCount;
+        mState = mNoQuarterState;
+    }
+
+    public int getCount() {
+        return mCount;
+    }
+
+    public void setState(State state) {
+        mState = state;
+    }
+
+    public void insertQuarter() {
+        mState.insertQuarter();
+    }
+
+    public void ejectQuarter() {
+        mState.ejectQuarter();
+    }
+
+    public void turnCrank() {
+        mState.turnCrank();
+        mState.dispense();
+    }
+
+    public void releaseBall() {
+        System.out.println("A gumball rolling out the slot...");
+        if (mCount > 0) {
+            mCount--;
+        }
+    }
+
+}
+```
+
+Insert a quarter and turn...
+
+```java
+GumBallMachine machine = new GumBallMachine(2);
+machine.insertQuarter();
+machine.turnCrank();
+```
