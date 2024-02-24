@@ -14,6 +14,7 @@ Design Pattern in Java with real-world examples
 - :electric_plug: [Adapter](#adapter)
 - :door: [Facade](#facade)
 - :clipboard: [Template](#template)
+- :repeat: [Iterator](#iterator)
 
 ## :dart: Strategy
 Define a set of replaceable algorithms at runtime. Select and replace algorithms independent of the clients that use it.
@@ -638,6 +639,109 @@ tea.prepare();
 Beverage coffee = new Coffee();
 coffee.prepare();
 ```
+
+## :repeat: Iterator
+Using an iterator to traverse a collection and access the elements without exposing its underlying structure.
+
+### Example
+In a stackhouse restaurant, the manager need to design a menu that can be iterated to display menu items to the customers.
+
+```java
+public class MenuItem {
+
+    private String mName;
+    private double mPrice;
+
+    public MenuItem(String name, double price) {
+        mName = name;
+        mPrice = price;
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public double getPrice() {
+        return mPrice;
+    }
+
+}
+
+public interface Menu {
+
+    MenuIterator createIterator();
+
+}
+
+public interface MenuIterator {
+
+    boolean hasNext();
+
+    MenuItem next();
+
+}
+```
+
+Create the menu iterator...
+
+```java
+public class StackHouseMenuIterator implements MenuIterator {
+
+    private final MenuItem[] mMenuItems;
+
+    private int position = 0;
+
+    public StackHouseMenuIterator(MenuItem[] menuItems) {
+        mMenuItems = menuItems;
+    }
+
+    @Override
+    public boolean hasNext() {
+        return position < mMenuItems.length && mMenuItems[position] != null;
+    }
+
+    @Override
+    public MenuItem next() {
+        return mMenuItems[position++];
+    }
+
+}
+```
+
+Create the stackhouse menu with the iterator...
+
+```java
+public class StackHouseMenu implements Menu {
+
+    private final MenuItem[] mMenuItems = new MenuItem[2];
+
+    public StackHouseMenu() {
+        mMenuItems[0] = new MenuItem("Fillet Steak", 20.99);
+        mMenuItems[1] = new MenuItem("New York Steak", 15.99);
+    }
+
+    @Override
+    public MenuIterator createIterator() {
+        return new StackHouseMenuIterator(mMenuItems);
+    }
+
+}
+```
+
+Display menu items to the customer...
+
+```java
+Menu stackHouseMenu = new StackHouseMenu();
+printMenu(stackHouseMenu.createIterator());
+
+private static void printMenu(MenuIterator iterator) {
+    while (iterator.hasNext()) {
+        MenuItem menuItem = iterator.next();
+        System.out.println(menuItem.getName() + ", $" + menuItem.getPrice());
+    }
+}
+```
+
 
 
 
