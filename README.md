@@ -1,6 +1,6 @@
 # design-pattern-note
 
-Design Pattern in Java with real-world examples base on [Head First Design Pattern](https://www.oreilly.com/library/view/head-first-design/9781492077992/)
+Design Pattern in Java with real-world examples based on [Head First Design Pattern](https://www.oreilly.com/library/view/head-first-design/9781492077992/)
 
 ---
 
