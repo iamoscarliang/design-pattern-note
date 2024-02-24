@@ -13,6 +13,7 @@ Design Pattern in Java with real-world examples
 - :calling: [Command](#command)
 - :electric_plug: [Adapter](#adapter)
 - :door: [Facade](#facade)
+- :clipboard: [Template](#template)
 
 ## :dart: Strategy
 Define a set of replaceable algorithms at runtime. Select and replace algorithms independent of the clients that use it.
@@ -565,6 +566,78 @@ theaterFacade.watchMovie("Lord of the ring");
 theaterFacade.endMovie();
 ```
 
+## :clipboard: Template
+Defines a set of algorithms in supertypes and let subtypes override the steps without altering algorithm’s structure.
+
+### Example
+In a cafe, the manager want to simplified the process of making beverage, so they create a stand along template to provide step to make each beverage on the menu.
+
+```java
+public abstract class Beverage {
+
+    public final void prepare() {
+        boilWater();
+        brew();
+        pourInCup();
+        addCondiments();
+    }
+
+    protected abstract void brew();
+
+    protected abstract void addCondiments();
+
+    protected void boilWater() {
+        System.out.println("Boiling water!");
+    }
+
+    protected void pourInCup() {
+        System.out.println("Pouring into cup!");
+    }
+
+}
+```
+
+Create templates for coffee and tea...
+
+```java
+public class Coffee extends Beverage {
+
+    @Override
+    protected void brew() {
+        System.out.println("Dripping coffee through filter!");
+    }
+
+    @Override
+    protected void addCondiments() {
+        System.out.println("Adding sugar and milk!");
+    }
+
+}
+
+public class Tea extends Beverage {
+
+    @Override
+    protected void brew() {
+        System.out.println("Steeping the tea!");
+    }
+
+    @Override
+    protected void addCondiments() {
+        System.out.println("Adding lemon!");
+    }
+
+}
+```
+
+To serve coffee and tea...
+
+```java
+Beverage tea = new Tea();
+tea.prepare();
+
+Beverage coffee = new Coffee();
+coffee.prepare();
+```
 
 
 
