@@ -10,7 +10,7 @@ Design Pattern in Java with real-world examples
 - :bouquet: [Decorator](#decorator)
 - :factory: [Factory](#factory)
 - :mens: [Singleton](#singleton)
-
+- :calling: [Command](#command)
 
 ## :dart: Strategy
 Define a set of replaceable algorithms at runtime. Select and replace algorithms independent of the clients that use it.
@@ -318,5 +318,110 @@ Create a singleton instance...
 ```java
 Singleton singleton = Singleton.getInstance();
 ```
+
+## :calling: Command
+Encapsulate a request into an object and lets you pass requests as a method arguments.
+
+### Example
+In an appliances control system, the remote controller can control multiple devices' current state.
+
+```java
+public interface Command {
+
+    void execute();
+
+}
+
+public class RemoteControl {
+
+    private Command[] mOnCommands = new Command[7];
+    private Command[] mOffCommands = new Command[7];
+
+    public RemoteControl() {
+        Command noCommand = new NoCommand();
+        for (int i = 0; i < 7; i++) {
+            mOnCommands[i] = noCommand;
+            mOffCommands[i] = noCommand;
+        }
+    }
+
+    public void setCommand(int slot, Command onCommand, Command offCommand) {
+        mOnCommands[slot] = onCommand;
+        mOffCommands[slot] = offCommand;
+    }
+
+    public void onButtonPressed(int slot) {
+        mOnCommands[slot].execute();
+    }
+
+    public void offButtonPressed(int slot) {
+        mOffCommands[slot].execute();
+    }
+    //...
+
+}
+```
+
+Create a control command over a living room light...
+
+```java
+public class Light {
+
+    public void on() {
+        System.out.println("Light is on");
+    }
+
+    public void off() {
+        System.out.println("Light is off");
+    }
+
+}
+
+public class LightOnCommand implements Command {
+
+    private Light mLight;
+
+    public LightOnCommand(Light light) {
+        mLight = light;
+    }
+
+    @Override
+    public void execute() {
+        mLight.on();
+    }
+
+}
+
+public class LightOffCommand implements Command {
+
+    private Light mLight;
+
+    public LightOffCommand(Light light) {
+        mLight = light;
+    }
+
+    @Override
+    public void execute() {
+        mLight.off();
+    }
+
+}
+```
+
+Create a remote controller to turn on and off the lights...
+
+```java
+RemoteControl remoteControl = new RemoteControl();
+
+Light livingRoomLight = new Light("Living Room");
+LightOnCommand livingRoomLightOn = new LightOnCommand(livingRoomLight);
+LightOffCommand livingRoomLightOff = new LightOffCommand(livingRoomLight);
+
+remoteControl.setCommand(0, livingRoomLightOn, livingRoomLightOff);
+remoteControl.onButtonPressed(0);
+remoteControl.offButtonPressed(0);
+```
+
+
 
 
