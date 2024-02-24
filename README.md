@@ -11,6 +11,7 @@ Design Pattern in Java with real-world examples
 - :factory: [Factory](#factory)
 - :mens: [Singleton](#singleton)
 - :calling: [Command](#command)
+- :electric_plug: [Adapter](#adapter)
 
 ## :dart: Strategy
 Define a set of replaceable algorithms at runtime. Select and replace algorithms independent of the clients that use it.
@@ -420,6 +421,56 @@ LightOffCommand livingRoomLightOff = new LightOffCommand(livingRoomLight);
 remoteControl.setCommand(0, livingRoomLightOn, livingRoomLightOff);
 remoteControl.onButtonPressed(0);
 remoteControl.offButtonPressed(0);
+```
+
+## :electric_plug: Adapter
+Convert incompatible interfaces to the one clients used. Allowing objects with different interfaces to interact with.
+
+### Example
+In a farming game, the player can breed ducks. Now the designer want to add more animals, like turkey, but duck is the only interface the player can interact with...
+
+```java
+public interface Duck {
+
+    void quack();
+
+}
+
+public interface Turkey {
+
+    void gobble();
+
+}
+```
+
+Create a turkey adapter...
+
+```java
+public class TurkeyAdapter implements Duck {
+
+    private Turkey mTurkey;
+
+    public TurkeyAdapter(Turkey turkey) {
+        mTurkey = turkey;
+    }
+
+    @Override
+    public void quack() {
+        mTurkey.gobble();
+    }
+
+}
+```
+
+Now the player can interact with both the duck and the turkey...
+
+```java
+Duck duck = new MallardDuck();
+Turkey turkey = new WildTurkey();
+Duck turkeyAdapter = new TurkeyAdapter(turkey);
+
+duck.quack();
+turkeyAdapter.quack();
 ```
 
 
