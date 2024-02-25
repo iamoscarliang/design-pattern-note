@@ -19,6 +19,7 @@ Design Pattern in Java with real-world examples based on [Head First Design Patt
 - :traffic_light: [State](#state)
 - :bridge_at_night: [Bridge](#bridge)
 - :hammer: [Builder](#builder)
+- :link: [Chain of responsibility](#chain-of-responsibility)
 
 ## :dart: Strategy
 Define a set of algorithms and let the object dynamically change the behavior by choosing from multiple algorithms at runtime.
@@ -1231,6 +1232,100 @@ Vacation vacation = new VacationBuilder()
                 .addEvent("Learn Java")
                 .addEvent("Learn Design Pattern")
                 .build();
+```
+
+## :link: Chain of responsibility
+Define a chain of handlers, when each handler receives a request, either to process the request or to pass it to the next handler in the chain.
+
+### Example
+The community department recently received a lot of emails from the customer. They want to classify all the emails and send the email to the department that can handle them.
+
+```java
+public abstract class Handler {
+
+    protected Handler mSuccessor;
+
+    public abstract void handlerRequest(String email);
+
+    public Handler getSuccessor() {
+        return mSuccessor;
+    }
+
+    public void setSuccessor(Handler handler) {
+        mSuccessor = handler;
+    }
+
+}
+```
+
+Create email handlers to classify spam emails, fans emails, and complaint emails...
+
+```java
+public class SpamHandler extends Handler {
+
+    @Override
+    public void handlerRequest(String email) {
+        if (email.contains("spam")) {
+            System.out.println("Delete spam email!");
+        } else {
+            if (mSuccessor != null) {
+                mSuccessor.handlerRequest(email);
+            } else {
+                System.out.println("Put email to pending email file!");
+            }
+        }
+    }
+
+}
+
+public class FansHandler extends Handler {
+
+    @Override
+    public void handlerRequest(String email) {
+        if (email.contains("fans")) {
+            System.out.println("Send fans email to manager!");
+        } else {
+            if (mSuccessor != null) {
+                mSuccessor.handlerRequest(email);
+            } else {
+                System.out.println("Put email to pending email file!");
+            }
+        }
+    }
+
+}
+
+public class ComplaintHandler extends Handler {
+
+    @Override
+    public void handlerRequest(String email) {
+        if (email.contains("complaint")) {
+            System.out.println("Send complaint email to legal department!");
+        } else {
+            if (mSuccessor != null) {
+                mSuccessor.handlerRequest(email);
+            } else {
+                System.out.println("Put email to pending email file!");
+            }
+        }
+    }
+
+}
+```
+
+Handler some email send by the customer...
+
+```java
+Handler spamHandler = new SpamHandler();
+Handler fansHandler = new FansHandler();
+Handler complaintHandler = new ComplaintHandler();
+
+spamHandler.setSuccessor(fansHandler);
+fansHandler.setSuccessor(complaintHandler);
+
+spamHandler.handlerRequest("This is a spam email");
+spamHandler.handlerRequest("This is a fans email");
+spamHandler.handlerRequest("This is a complaint email");
 ```
 
 
