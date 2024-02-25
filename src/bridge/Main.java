@@ -23,9 +23,9 @@ public class Main {
         AppleRemoteControl appleRemoteControl = new AppleRemoteControl();
         appleRemoteControl.setTV(appleTV);
 
-        sonyLCDTVRemoteControl.setChannel(20);
-        sonyLCDTVRemoteControl.nextChannel();
-        sonyLCDTVRemoteControl.previousChannel();
+        sonyLCDTVRemoteControl.setChannel(30);
+        sonyLEDTVRemoteControl.setChannel(20);
+        sonyLEDTVRemoteControl.nextChannel();
 
         appleRemoteControl.setChannel(50);
         appleRemoteControl.setChannel(25);
