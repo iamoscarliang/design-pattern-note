@@ -17,7 +17,8 @@ Design Pattern in Java with real-world examples based on [Head First Design Patt
 - :repeat: [Iterator](#iterator)
 - :deciduous_tree: [Composition](#composition)
 - :traffic_light: [State](#state)
-- :bridge_at_night: [Bridge](#-bridge)
+- :bridge_at_night: [Bridge](#bridge)
+- :hammer: [Builder](#builder)
 
 ## :dart: Strategy
 Define a set of algorithms and let the object dynamically change the behavior by choosing from multiple algorithms at runtime.
@@ -1143,6 +1144,95 @@ sonyLCDTVRemoteControl.setChannel(30);
 sonyLEDTVRemoteControl.setChannel(20);
 sonyLEDTVRemoteControl.nextChannel();
 ```
+
+## :hammer: Builder
+Building the structure of a complex object step by step.
+
+### Example
+In a tourism company, the manager needs a vacation planning system to easily arrange activities during the vacation for their client.
+
+```java
+public class Vacation {
+
+    private String mDate;
+    private String mHotel;
+
+    private final List<String> mEvents = new ArrayList<>();
+
+    public void setDate(String date) {
+        mDate = date;
+    }
+
+    public void setHotel(String hotel) {
+        mHotel = hotel;
+    }
+
+    public void addEvent(String event) {
+        mEvents.add(event);
+    }
+
+}
+
+public interface Builder {
+
+    Builder setDate(String date);
+
+    Builder setHotel(String hotel);
+
+    Builder addEvent(String event);
+
+    Vacation build();
+
+}
+```
+Create a vacation planning builder...
+
+```java
+public class VacationBuilder implements Builder {
+
+    private Vacation mVacation;
+
+    public VacationBuilder() {
+        mVacation = new Vacation();
+    }
+
+    @Override
+    public Builder setDate(String date) {
+        mVacation.setDate(date);
+        return this;
+    }
+
+    @Override
+    public Builder setHotel(String hotel) {
+        mVacation.setHotel(hotel);
+        return this;
+    }
+
+    @Override
+    public Builder addEvent(String event) {
+        mVacation.addEvent(event);
+        return this;
+    }
+
+    @Override
+    public Vacation build() {
+        return mVacation;
+    }
+
+}
+```
+
+Create a vacation with the builder...
+
+```java
+Vacation vacation = new VacationBuilder()
+                .setDate("May 1")
+                .setHotel("Awesome Hotel")
+                .addEvent("Learn Java")
+                .addEvent("Learn Design Pattern")
+                .build();
+```
+
 
 
 
