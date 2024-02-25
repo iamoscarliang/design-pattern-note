@@ -17,9 +17,10 @@ Design Pattern in Java with real-world examples based on [Head First Design Patt
 - :repeat: [Iterator](#iterator)
 - :deciduous_tree: [Composition](#composition)
 - :traffic_light: [State](#state)
+- :bridge_at_night: [Bridge](#-bridge)
 
 ## :dart: Strategy
-Define a set of replaceable algorithms at runtime. Select and replace algorithms independent of the clients that use it.
+Define a set of algorithms and let the object dynamically change the behavior by choosing from multiple algorithms at runtime.
 
 ### Example
 In a role-playing game, each player can select a character and their weapon. Each character can use different weapons, but only use one weapon at a time
@@ -47,7 +48,29 @@ public abstract class Character {
 }
 ```
 
-Create a king character and set different weapons to it...
+Create weapons...
+
+```java
+public class SwordBehavior implements WeaponBehavior {
+
+    @Override
+    public void useWeapon() {
+        System.out.println("Swinging a sword!");
+    }
+
+}
+
+public class ArrowBehavior implements WeaponBehavior {
+
+    @Override
+    public void useWeapon() {
+        System.out.println("Shooting an arrow!");
+    }
+
+}
+```
+
+Create a king character and set weapons to it...
 
 ```java
 Character king = new King();
@@ -1003,3 +1026,123 @@ GumBallMachine machine = new GumBallMachine(2);
 machine.insertQuarter();
 machine.turnCrank();
 ```
+
+## :bridge_at_night: Bridge
+Separate the system into abstraction and implementation, and develop independently of each other.
+
+### Example
+In a TV manufacturer, the engineers want to design a remote control interface that can highly integrate with the TV of different models.
+
+```java
+public interface TV {
+
+    void on();
+
+    void off();
+
+    void turnChannel(int channel);
+
+}
+
+public abstract class RemoteControl {
+
+    protected TV mTV;
+    protected int mCurrentChannel = 0;
+
+    public void setTV(TV tv) {
+        mTV = tv;
+    }
+
+    public void setChannel(int channel) {
+        mCurrentChannel = channel;
+        mTV.turnChannel(channel);
+    }
+
+    public void on() {
+        mTV.on();
+    }
+
+    public void off() {
+        mTV.off();
+    }
+
+}
+```
+
+The compony has two types of TV...
+
+```java
+public class SonyLCDTV implements TV {
+
+    @Override
+    public void on() {
+        System.out.println("Turn on Sony LCD TV!");
+    }
+
+    @Override
+    public void off() {
+        System.out.println("Turn off Sony LCD TV!");
+    }
+
+    @Override
+    public void turnChannel(int channel) {
+        System.out.println("Turn Sony LCD TV channel to " + channel + "!");
+    }
+
+}
+
+public class SonyLEDTV implements TV {
+
+    @Override
+    public void on() {
+        System.out.println("Turn on Sony LED TV!");
+    }
+
+    @Override
+    public void off() {
+        System.out.println("Turn off Sony LED TV!");
+    }
+
+    @Override
+    public void turnChannel(int channel) {
+        System.out.println("Turn Sony LED TV channel to " + channel + "!");
+    }
+
+}
+```
+
+Create a remote control that can handle both types of TV...
+
+```java
+public class SonyRemoteControl extends RemoteControl {
+
+    public void nextChannel() {
+        setChannel(mCurrentChannel + 1);
+    }
+
+    public void previousChannel() {
+        setChannel(mCurrentChannel - 1);
+    }
+
+}
+```
+
+Create the TVs and the remote control...
+
+```java
+TV sonyLCDTV = new SonyLCDTV();
+TV sonyLEDTV = new SonyLEDTV();
+
+SonyRemoteControl sonyLCDTVRemoteControl = new SonyRemoteControl();
+sonyLCDTVRemoteControl.setTV(sonyLCDTV);
+
+SonyRemoteControl sonyLEDTVRemoteControl = new SonyRemoteControl();
+ sonyLEDTVRemoteControl.setTV(sonyLEDTV);
+
+sonyLCDTVRemoteControl.setChannel(30);
+sonyLEDTVRemoteControl.setChannel(20);
+sonyLEDTVRemoteControl.nextChannel();
+```
+
+
+
