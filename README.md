@@ -20,6 +20,7 @@ Design Pattern in Java with real-world examples based on [Head First Design Patt
 - :bridge_at_night: [Bridge](#bridge)
 - :hammer: [Builder](#builder)
 - :link: [Chain of responsibility](#chain-of-responsibility)
+- :money_with_wings: [Flyweight](#flyweight)
 
 ## :dart: Strategy
 Define a set of algorithms and let the object dynamically change the behavior by choosing from multiple algorithms at runtime.
@@ -1328,6 +1329,91 @@ spamHandler.handlerRequest("This is a fans email");
 spamHandler.handlerRequest("This is a complaint email");
 ```
 
+## :money_with_wings: Flyweight
+Reduce the number of objects created and decrease memory being used by sharing common parts of components between multiple objects.
+
+### Example
+In an adventure game, the engineers want to design a forest system that contains thousands of trees, each with different colors of leaves. But they find out that as the number of trees getting larger and larger, the computer will quickly run out of memory, since there are too many leaves on the screen, so they need to implement them in an efficient way.
+
+```java
+public class Tree {
+
+    private float mX;
+    private float mY;
+
+    private final List<Leaf> mLeaves = new ArrayList<>();
+
+    public Tree(float x, float y) {
+        mX = x;
+        mY = y;
+    }
+
+    public void addLeaf(Leaf leaf) {
+        mLeaves.add(leaf);
+    }
+
+    public void display() {
+        System.out.println("Display a tree at (" + mX + ", " + mY + "), with " + mLeaves);
+    }
+
+}
+
+public class Leaf {
+
+    private String mColor;
+
+    public Leaf(String color) {
+        mColor = color;
+    }
+
+    @Override
+    public String toString() {
+        return mColor + " leaf";
+    }
+
+}
+```
+
+Create a leaf factory to reuse the same type of leaf...
+
+```java
+public class LeafFactory {
+
+    private final Map<String, Leaf> mLeaves = new HashMap<>();
+
+    public Leaf createLeaf(String color) {
+        if (mLeaves.containsKey(color)) {
+            return mLeaves.get(color);
+        } else {
+            Leaf leaf = new Leaf(color);
+            mLeaves.put(color, leaf);
+            return leaf;
+        }
+    }
+
+}
+```
+
+Create the trees with the leaf factory...
+
+```java
+LeafFactory factory = new LeafFactory();
+
+Tree greenTree = new Tree(100, 100);
+for (int i = 0; i < 3; i++) {
+    greenTree.addLeaf(factory.createLeaf("green"));
+    greenTree.addLeaf(factory.createLeaf("dark green"));
+}
+
+Tree yellowTree = new Tree(200, 300);
+for (int i = 0; i < 4; i++) {
+    yellowTree.addLeaf(factory.createLeaf("yellow"));
+    yellowTree.addLeaf(factory.createLeaf("orange"));
+}
+
+greenTree.display();
+yellowTree.display();
+```
 
 
 
