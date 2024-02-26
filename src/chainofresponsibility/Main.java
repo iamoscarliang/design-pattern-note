@@ -13,6 +13,7 @@ public class Main {
         spamHandler.handlerRequest("This is a spam email");
         spamHandler.handlerRequest("This is a fans email");
         spamHandler.handlerRequest("This is a complaint email");
+        spamHandler.handlerRequest("Unknown email");
     }
 
 }

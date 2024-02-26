@@ -5,7 +5,7 @@ public class FansHandler extends Handler {
     @Override
     public void handlerRequest(String email) {
         if (email.contains("fans")) {
-            System.out.println("Send email to manager!");
+            System.out.println("Send fans email to manager!");
         } else {
             if (mSuccessor != null) {
                 mSuccessor.handlerRequest(email);
