@@ -21,6 +21,7 @@ Design Pattern in Java with real-world examples based on [Head First Design Patt
 - :hammer: [Builder](#builder)
 - :link: [Chain of responsibility](#chain-of-responsibility)
 - :money_with_wings: [Flyweight](#flyweight)
+- :bus: [Mediator](#mediator)
 
 ## :dart: Strategy
 Define a set of algorithms and let the object dynamically change the behavior by choosing from multiple algorithms at runtime.
@@ -1414,6 +1415,172 @@ for (int i = 0; i < 4; i++) {
 greenTree.display();
 yellowTree.display();
 ```
+
+## :bus: Mediator
+Redirect the communications between objects via a mediator to decouple them in a loose structure.
+
+### Example
+In a house management system, when the alarm is turned off, the system will reboot and check the date. If it's a workday, then turn on the coffee machine and make a cup of coffee. If it's the weekend, then turn on the sprinkler and watering the garden.
+
+```java
+public interface DeviceMediator {
+
+    void sendEvent(Event event);
+
+}
+
+public abstract class Device {
+
+    protected DeviceMediator mMediator;
+
+    public void setMediator(DeviceMediator mediator) {
+        mMediator = mediator;
+    }
+
+    public abstract void onEvent(Event event);
+
+}
+```
+
+Create the event...
+
+```java
+public enum Event {
+    STOP_ALARM,
+    TURN_ON_SYSTEM,
+    MAKE_COFFEE,
+    WATERING_GARDEN,
+    CHECK_CALENDER,
+    WORKDAY,
+    WEEKEND
+}
+```
+
+Create the device...
+
+```java
+public class Alarm extends Device {
+
+    @Override
+    public void onEvent(Event event) {
+        if (event == Event.STOP_ALARM) {
+            System.out.println("Alarm stopped!");
+            mMediator.sendEvent(Event.TURN_ON_SYSTEM);
+        }
+    }
+
+}
+
+public class CoffeeMachine extends Device {
+
+    @Override
+    public void onEvent(Event event) {
+        if (event == Event.MAKE_COFFEE) {
+            System.out.println("Make a cup of coffee!");
+        }
+    }
+
+}
+
+public class Sprinkler extends Device {
+
+    @Override
+    public void onEvent(Event event) {
+        if (event == Event.WATERING_GARDEN) {
+            System.out.println("Watering the garden!");
+        }
+    }
+
+}
+
+public class Calendar extends Device {
+
+    private String mDate;
+
+    public String getDate() {
+        return mDate;
+    }
+
+    public void setDate(String date) {
+        mDate = date;
+    }
+
+    @Override
+    public void onEvent(Event event) {
+        if (event == Event.CHECK_CALENDER) {
+            if (mDate.equals("Saturday") || mDate.equals("Sunday")) {
+                mMediator.sendEvent(Event.WEEKEND);
+            } else {
+                mMediator.sendEvent(Event.WORKDAY);
+            }
+        }
+    }
+
+}
+```
+
+Create the device controller
+
+```java
+public class DeviceController implements DeviceMediator {
+
+    private Alarm mAlarm;
+    private CoffeeMachine mCoffeeMachine;
+    private Sprinkler mSprinkler;
+    private Calendar mCalendar;
+
+    public DeviceController(Alarm alarm, CoffeeMachine coffeeMachine, Sprinkler sprinkler, Calendar calendar) {
+        mAlarm = alarm;
+        mCoffeeMachine = coffeeMachine;
+        mSprinkler = sprinkler;
+        mCalendar = calendar;
+    }
+
+    @Override
+    public void sendEvent(Event event) {
+        switch (event) {
+            case TURN_ON_SYSTEM:
+                mCalendar.onEvent(Event.CHECK_CALENDER);
+                break;
+            case WORKDAY:
+                mCoffeeMachine.onEvent(Event.MAKE_COFFEE);
+                break;
+            case WEEKEND:
+                mSprinkler.onEvent(Event.WATERING_GARDEN);
+                break;
+        }
+    }
+
+}
+```
+
+Test the system...
+
+```java
+Alarm alarm = new Alarm();
+CoffeeMachine coffeeMachine = new CoffeeMachine();
+Sprinkler sprinkler = new Sprinkler();
+Calendar calendar = new Calendar();
+
+DeviceMediator mediator = new DeviceController(alarm, coffeeMachine, sprinkler, calendar);
+
+alarm.setMediator(mediator);
+coffeeMachine.setMediator(mediator);
+sprinkler.setMediator(mediator);
+calendar.setMediator(mediator);
+
+calendar.setDate("Monday");
+System.out.println("-----Monday-----");
+System.out.println("Alarm started!");
+alarm.onEvent(Event.STOP_ALARM);
+
+calendar.setDate("Sunday");
+System.out.println("-----Sunday-----");
+System.out.println("Alarm started!");
+alarm.onEvent(Event.STOP_ALARM);
+```
+
+
 
 
 
