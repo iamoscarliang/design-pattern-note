@@ -9,10 +9,10 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Alarm alarm = new Alarm();
-        CoffeeMachine coffeeMachine = new CoffeeMachine();
-        Sprinkler sprinkler = new Sprinkler();
-        Calendar calendar = new Calendar();
+        Device alarm = new Alarm();
+        Device coffeeMachine = new CoffeeMachine();
+        Device sprinkler = new Sprinkler();
+        Device calendar = new Calendar("Monday");
 
         DeviceMediator mediator = new DeviceController(alarm, coffeeMachine, sprinkler, calendar);
 
@@ -21,13 +21,6 @@ public class Main {
         sprinkler.setMediator(mediator);
         calendar.setMediator(mediator);
 
-        calendar.setDate("Monday");
-        System.out.println("-----Monday-----");
-        System.out.println("Alarm started!");
-        alarm.onEvent(Event.STOP_ALARM);
-
-        calendar.setDate("Sunday");
-        System.out.println("-----Sunday-----");
         System.out.println("Alarm started!");
         alarm.onEvent(Event.STOP_ALARM);
     }

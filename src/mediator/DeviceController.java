@@ -7,12 +7,12 @@ import mediator.device.Sprinkler;
 
 public class DeviceController implements DeviceMediator {
 
-    private Alarm mAlarm;
-    private CoffeeMachine mCoffeeMachine;
-    private Sprinkler mSprinkler;
-    private Calendar mCalendar;
+    private Device mAlarm;
+    private Device mCoffeeMachine;
+    private Device mSprinkler;
+    private Device mCalendar;
 
-    public DeviceController(Alarm alarm, CoffeeMachine coffeeMachine, Sprinkler sprinkler, Calendar calendar) {
+    public DeviceController(Device alarm, Device coffeeMachine, Device sprinkler, Device calendar) {
         mAlarm = alarm;
         mCoffeeMachine = coffeeMachine;
         mSprinkler = sprinkler;

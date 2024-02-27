@@ -1497,11 +1497,7 @@ public class Calendar extends Device {
 
     private String mDate;
 
-    public String getDate() {
-        return mDate;
-    }
-
-    public void setDate(String date) {
+    public Calendar(String date) {
         mDate = date;
     }
 
@@ -1524,12 +1520,12 @@ Create the device controller
 ```java
 public class DeviceController implements DeviceMediator {
 
-    private Alarm mAlarm;
-    private CoffeeMachine mCoffeeMachine;
-    private Sprinkler mSprinkler;
-    private Calendar mCalendar;
+    private Device mAlarm;
+    private Device mCoffeeMachine;
+    private Device mSprinkler;
+    private Device mCalendar;
 
-    public DeviceController(Alarm alarm, CoffeeMachine coffeeMachine, Sprinkler sprinkler, Calendar calendar) {
+    public DeviceController(Device alarm, Device coffeeMachine, Device sprinkler, Device calendar) {
         mAlarm = alarm;
         mCoffeeMachine = coffeeMachine;
         mSprinkler = sprinkler;
@@ -1557,10 +1553,10 @@ public class DeviceController implements DeviceMediator {
 Test the system...
 
 ```java
-Alarm alarm = new Alarm();
-CoffeeMachine coffeeMachine = new CoffeeMachine();
-Sprinkler sprinkler = new Sprinkler();
-Calendar calendar = new Calendar();
+Device alarm = new Alarm();
+Device coffeeMachine = new CoffeeMachine();
+Device sprinkler = new Sprinkler();
+Device calendar = new Calendar("Monday");
 
 DeviceMediator mediator = new DeviceController(alarm, coffeeMachine, sprinkler, calendar);
 
@@ -1569,13 +1565,6 @@ coffeeMachine.setMediator(mediator);
 sprinkler.setMediator(mediator);
 calendar.setMediator(mediator);
 
-calendar.setDate("Monday");
-System.out.println("-----Monday-----");
-System.out.println("Alarm started!");
-alarm.onEvent(Event.STOP_ALARM);
-
-calendar.setDate("Sunday");
-System.out.println("-----Sunday-----");
 System.out.println("Alarm started!");
 alarm.onEvent(Event.STOP_ALARM);
 ```

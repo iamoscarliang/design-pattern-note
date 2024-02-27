@@ -7,11 +7,7 @@ public class Calendar extends Device {
 
     private String mDate;
 
-    public String getDate() {
-        return mDate;
-    }
-
-    public void setDate(String date) {
+    public Calendar(String date) {
         mDate = date;
     }
 
