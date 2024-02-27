@@ -1,4 +1,7 @@
-package mediator;
+package mediator.device;
+
+import mediator.Device;
+import mediator.Event;
 
 public class Calendar extends Device {
 

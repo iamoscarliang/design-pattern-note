@@ -1,5 +1,10 @@
 package mediator;
 
+import mediator.device.Alarm;
+import mediator.device.Calendar;
+import mediator.device.CoffeeMachine;
+import mediator.device.Sprinkler;
+
 public class DeviceController implements DeviceMediator {
 
     private Alarm mAlarm;
