@@ -18,7 +18,7 @@ Design Pattern in Java with real-world examples based on [Head First Design Patt
 - :deciduous_tree: [Composition](#deciduoustree-composition)
 - :traffic_light: [State](#trafficlight-state)
 - :bridge_at_night: [Bridge](#bridgeatnight-bridge)
-- :hammer: [Builder](#bus-mediator)
+- :hammer: [Builder](#hammer-builder)
 - :link: [Chain of responsibility](#link-chain-of-responsibility)
 - :money_with_wings: [Flyweight](#moneywithwings-flyweight)
 - :bus: [Mediator](#bus-mediator)
